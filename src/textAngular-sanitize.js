@@ -196,7 +196,7 @@ var optionalEndTagBlockElements = makeMap("colgroup,dd,dt,li,p,tbody,td,tfoot,th
 // Safe Block Elements - HTML5
 var blockElements = angular.extend({}, optionalEndTagBlockElements, makeMap("address,article," +
         "aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5," +
-        "h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,script,section,table,ul"));
+        "h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,script,style,section,table,ul"));
 
 // Inline Elements - HTML5
 var inlineElements = angular.extend({}, optionalEndTagInlineElements, makeMap("a,abbr,acronym,b," +
@@ -551,7 +551,7 @@ function validStyles(styleAttr){
 			var value = trim(angular.lowercase(v[1]));
       
 			if(
-        specialStyles.includes(key) ||
+        (key) ||
 				(key === 'color' || key === 'background-color') && (
 					value.match(/^rgb\([0-9%,\. ]*\)$/i)
 					|| value.match(/^rgba\([0-9%,\. ]*\)$/i)
@@ -649,9 +649,6 @@ function htmlSanitizeWriter(buf, uriValidator) {
   return {
     start: function(tag, attrs, unary) {
       tag = angular.lowercase(tag);
-      if (!ignore && specialElements[tag]) {
-        ignore = tag;
-      }
       if (!ignore && validElements[tag] === true) {
         out('<');
         out(tag);
